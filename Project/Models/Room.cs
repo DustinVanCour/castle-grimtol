@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CastleGrimtol.Project.Interfaces;
 
@@ -10,15 +11,23 @@ namespace CastleGrimtol.Project.Models
     public List<Item> Items { get; set; }
     public Dictionary<string, IRoom> Exits { get; set; }
 
+    //--METHODS--
+    public IRoom Go(string direction)
+    {
+      if (Exits.ContainsKey(direction))
+      {
+        return Exits[direction];
+      }
+      Console.WriteLine("Invalid Direction. Please choose a different direction.");
+      return this;
+    }
 
 
 
-
-//---CONSTRUCTOR---
-    public Room (string name, string description)
+    //---CONSTRUCTOR---
+    public Room(string name)
     {
       Name = name;
-      Description = description;
       Items = new List<Item>();
       Exits = new Dictionary<string, IRoom>();
     }
