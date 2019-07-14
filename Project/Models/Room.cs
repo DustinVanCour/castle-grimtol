@@ -12,15 +12,7 @@ namespace CastleGrimtol.Project.Models
     public Dictionary<string, IRoom> Exits { get; set; }
 
     //--METHODS--
-    public IRoom Go(string direction)
-    {
-      if (Exits.ContainsKey(direction))
-      {
-        return Exits[direction];
-      }
-      Console.WriteLine("Invalid Direction. Please choose a different direction.");
-      return this;
-    }
+
 
 
 

@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Threading;
 using CastleGrimtol.Project.Interfaces;
 using CastleGrimtol.Project.Models;
 
@@ -6,17 +8,74 @@ namespace CastleGrimtol.Project
 {
   public class GameService : IGameService
   {
+    public bool Running = true;
     public Room CurrentRoom { get; set; }
     public Player CurrentPlayer { get; set; }
 
+    public GameService(Player player)
+    {
+      Setup();
+      CurrentPlayer = player;
+    }
+
+
+
     public void GetUserInput()
     {
-      ;
+      string[] input = Console.ReadLine().ToLower().Split(" ");
+      string action = input[0];
+      string choice = input[1];
+      switch (action)
+      {
+        case "go":
+          Go(choice);
+          break;
+
+        case "inventory":
+          Inventory();
+          break;
+
+        case "help":
+          Help();
+          break;
+
+        case "look":
+          Look();
+          break;
+
+        case "quit":
+          Quit();
+          break;
+
+        case "reset":
+          Reset();
+          break;
+
+        case "take":
+          TakeItem(choice);
+          break;
+
+        case "use":
+          UseItem(choice);
+          break;
+
+        default:
+          Console.WriteLine("Invalid Input. Try Again. If you need help, type HELP.");
+          break;
+      }
     }
 
     public void Go(string direction)
     {
-      ;
+      if (CurrentRoom.Exits.ContainsKey(direction))
+      {
+        CurrentRoom = (Room)CurrentRoom.Exits[direction];
+      }
+      else
+      {
+        Console.WriteLine("Invalid Direction. Please choose a different direction.");
+        Thread.Sleep(2000);
+      };
     }
 
     public void Help()
@@ -78,12 +137,21 @@ namespace CastleGrimtol.Project
       CurrentRoom = console;
 
       //--ITEM RELATIONSHIPS--
-
+      library.Items.Add(bookCyborg);
+      library.Items.Add(bookPompei);
+      library.Items.Add(bookTime);
+      library.Items.Add(sonic);
+      shelves.Items.Add(fez);
     }
 
     public void StartGame()
     {
-      ;
+      while (Running)
+      {
+        Console.Clear();
+        Console.WriteLine($"{CurrentRoom.Name}");
+        GetUserInput();
+      }
     }
 
     public void TakeItem(string itemName)
@@ -95,5 +163,6 @@ namespace CastleGrimtol.Project
     {
       ;
     }
+
   }
 }

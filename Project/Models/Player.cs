@@ -12,10 +12,9 @@ namespace CastleGrimtol.Project.Models
 
 
     //---CONSTRUCTOR---
-    public Player(string playername, int lines)
+    public Player(string playername)
     {
       PlayerName = playername;
-      Lines = lines;
       Inventory = new List<Item>();
     }
   }
