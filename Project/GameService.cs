@@ -75,6 +75,8 @@ namespace CastleGrimtol.Project
       door.Exits.Add("west", console);
       door.Exits.Add("south", shelves);
 
+      CurrentRoom = console;
+
       //--ITEM RELATIONSHIPS--
 
     }
