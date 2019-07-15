@@ -22,9 +22,13 @@ namespace CastleGrimtol.Project
 
     public void GetUserInput()
     {
-      string[] input = Console.ReadLine().ToLower().Split(" ");
+      string[] input = Console.ReadLine().ToLower().Split(' ');
       string action = input[0];
-      string choice = input[1];
+      string choice = "";
+      if (input.Length > 1)
+      {
+        choice = input[1];
+      }
       switch (action)
       {
         case "go":
@@ -85,13 +89,13 @@ namespace CastleGrimtol.Project
 
     public void Inventory()
     {
-      // int count = 1;
-      // foreach (var Item in Player.Inventory)
-      // {
-      //   Console.WriteLine($"{count}) {Item.name}");
-      //   count++;
-      // }
-      // foreach(Item);
+      Console.WriteLine("INVENTORY:");
+      int count = 1;
+      foreach (var Item in CurrentPlayer.Inventory)
+      {
+        Console.WriteLine($"{count}) {Item.Name}");
+        count++;
+      }
       // Console.WriteLine($"INVENTORY: {}");
     }
 
@@ -104,11 +108,59 @@ namespace CastleGrimtol.Project
     {
       Console.WriteLine("Thanks for playing!");
       Thread.Sleep(5000);
+      Environment.Exit(-1);
     }
 
     public void Reset()
     {
-      Setup();
+      Console.Clear();
+      Console.WriteLine(@"  
+  ______                            _   _            _______       _____  _____ _____  _____ 
+ |  ____|                          | | | |          |__   __|/\   |  __ \|  __ \_   _|/ ____|
+ | |__   ___  ___ __ _ _ __   ___  | |_| |__   ___     | |  /  \  | |__) | |  | || | | (___  
+ |  __| / __|/ __/ _` | '_ \ / _ \ | __| '_ \ / _ \    | | / /\ \ |  _  /| |  | || |  \___ \ 
+ | |____\__ \ (_| (_| | |_) |  __/ | |_| | | |  __/    | |/ ____ \| | \ \| |__| || |_ ____) |
+ |______|___/\___\__,_| .__/ \___|  \__|_| |_|\___|    |_/_/    \_\_|  \_\_____/_____|_____/ 
+                      | |                                                                    
+                      |_|                                                                    
+                      
+                      
+                                        _.--._
+                                        _|__|_
+                            _____________|__|_____________
+                         .-'______________________________'-.
+                         | |________POLICE___BOX__________| |
+                         |  |============================|  |
+                         |  | .-----------..-----------. |  |
+                         |  | |  _  _  _  ||  _  _  _  | |  |
+                         |  | | | || || | || | || || | | |  |
+                         |  | | |_||_||_| || |_||_||_| | |  |
+                         |  | | | || || | || | || || | | |  |
+                         |  | | |_||_||_| || |_||_||_| | |  |
+                         |  | |  _______  ||  _______  | |  |
+                         |  | | |       | || |       | | |  |
+                         |  | | |       | || |       | | |  |
+                         |  | | |       | || |       | | |  |
+                         |  | | |_______| || |_______| | |  |
+                         |  | |  _______ @||@ _______  | |  |
+                         |  | | |       | || |       | | |  |
+                         |  | | |       | || |       | | |  |
+                         |  | | |       | || |       | | |  |
+                         |  | | |_______| || |_______| | |  |
+                         |  | |  _______  ||  _______  | |  |
+                         |  | | |       | || |       | | |  |
+                         |  | | |       | || |       | | |  |
+                         |  | | |       | || |       | | |  |
+                         |  | | |_______| || |_______| | |  |
+                         |  | '-----------''-----------' |  |
+                        _|__|/__________________________\|__|_
+                       '----'----------------------------'----'
+                      ");
+      System.Console.WriteLine("Welcome to Escape the TARDIS! What is your name?");
+      string name = Console.ReadLine();
+      Player newPlayer = new Player(name);
+      GameService app = new GameService(newPlayer);
+      app.StartGame(); ;
     }
 
     public void Setup()
