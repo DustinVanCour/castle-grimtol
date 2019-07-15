@@ -17,9 +17,10 @@ namespace CastleGrimtol.Project.Models
 
 
     //---CONSTRUCTOR---
-    public Room(string name)
+    public Room(string name, string description)
     {
       Name = name;
+      Description = description;
       Items = new List<Item>();
       Exits = new Dictionary<string, IRoom>();
     }

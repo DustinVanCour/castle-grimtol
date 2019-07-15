@@ -60,7 +60,7 @@ namespace CastleGrimtol.Project
           break;
 
         default:
-          Console.WriteLine("Invalid Input. Try Again. If you need help, type HELP.");
+          Console.WriteLine("Invalid Input. Try Again. Or type HELP.");
           break;
       }
     }
@@ -80,12 +80,19 @@ namespace CastleGrimtol.Project
 
     public void Help()
     {
-      ;
+      Console.WriteLine($"{CurrentRoom.Exits}");
     }
 
     public void Inventory()
     {
-      ;
+      // int count = 1;
+      // foreach (var Item in Player.Inventory)
+      // {
+      //   Console.WriteLine($"{count}) {Item.name}");
+      //   count++;
+      // }
+      // foreach(Item);
+      // Console.WriteLine($"INVENTORY: {}");
     }
 
     public void Look()
@@ -95,22 +102,49 @@ namespace CastleGrimtol.Project
 
     public void Quit()
     {
-      ;
+      Console.WriteLine("Thanks for playing!");
+      Thread.Sleep(5000);
     }
 
     public void Reset()
     {
-      ;
+      Setup();
     }
 
     public void Setup()
     {
       //--ROOMS--
-      Room console = new Room("Console");
-      Room hall = new Room("Dark Hall");
-      Room library = new Room("Library");
-      Room shelves = new Room("Shelves");
-      Room door = new Room("Door");
+      Room opening = new Room("Opening Scene", @"
+                         N
+                     _________
+           	        |         |
+                    | Library |
+                    |         |
+                  //|____  ___|\\
+                 //      ||     \\
+               //        ||       \\
+             //          ||         \\
+     _______//       ____||___       \\ _______
+   |	       |      |         |      |         |
+E  | Shelves |------| Console |------|   Hall  |  W
+   |         |------|    X    |------|         |
+   |________ |      |____  ___|      | ________|
+            \\           ||          //
+             \\          ||         //
+               \\        ||       //
+                 \\  ____||___  //
+                  \\|         |//
+                    |   Door  |
+                    |         |
+                    |_________|
+                    
+                          S
+      Your head is spinning as your eyes slowly open. You are laying on the floor unsure of your surrounding. You slowly start to stand up and gradually your world begins to come into view. You're in the TARDIS; standing next to the console. Things are in disarray and in need of repair. You are unsure what happened, but you know you must get off the ship. You reach into your coat pocket for your trusty Sonic Screwdriver, but it is nowhere to be found. As you removed you hand from your pocket, you notice a small black line on your wrist, as if drawn by a marker. Panic sets in as you become aware of how severe the sitaution is. You must find you Sonic ASAP if you are going to get out of this alive.");
+      Room console = new Room("Console", "The TARDIS console. It still seems to be functional, but barely. The viewscreen is lit up and you can see movement.");
+      Room hall = new Room("Dark Hall", "You approach the hallway leading to the back fo the TARDIS. It is very dark with only a few sparks from loose wires. The closer you get though, a figure comes into view...");
+      Room library = new Room("Library", "Your trusty deck library. Full of books and articfacts from previous adventures. Three distinct books are prominent on the middle shelf.");
+      Room shelves = new Room("Shelves", "A display shelf of personal affects you use throughout your travels. Coats, a guitar, and something very familiar and red in a display case.");
+      Room door = new Room("Door", "The bright blue front door to the TARDIS. The door unfortunately does not budge.");
 
       //--ITEMS--
       Item sonic = new Item("Sonic Screwdriver");
@@ -118,8 +152,13 @@ namespace CastleGrimtol.Project
       Item bookCyborg = new Item("Wild West Cyborg");
       Item bookPompei = new Item("Fires of Pompei");
       Item bookTime = new Item("End of Time");
+      Item viewscreen = new Item("Viewscreen");
 
       //--ROOM RELATIONSHIPS--
+      opening.Exits.Add("north", hall);
+      opening.Exits.Add("south", shelves);
+      opening.Exits.Add("west", library);
+      opening.Exits.Add("east", door);
       console.Exits.Add("north", hall);
       console.Exits.Add("south", shelves);
       console.Exits.Add("west", library);
@@ -134,13 +173,15 @@ namespace CastleGrimtol.Project
       door.Exits.Add("west", console);
       door.Exits.Add("south", shelves);
 
-      CurrentRoom = console;
+      CurrentRoom = opening;
 
       //--ITEM RELATIONSHIPS--
       library.Items.Add(bookCyborg);
       library.Items.Add(bookPompei);
       library.Items.Add(bookTime);
       library.Items.Add(sonic);
+      console.Items.Add(sonic);
+      console.Items.Add(viewscreen);
       shelves.Items.Add(fez);
     }
 
@@ -149,8 +190,9 @@ namespace CastleGrimtol.Project
       while (Running)
       {
         Console.Clear();
-        Console.WriteLine($"{CurrentRoom.Name}");
+        Console.WriteLine($"{CurrentRoom.Description}");
         GetUserInput();
+        Inventory();
       }
     }
 
