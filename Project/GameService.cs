@@ -336,6 +336,7 @@ W  | Library |------| Console |------|   Door  |  E
                          S
 
       The bright blue front door to the TARDIS. The door unfortunately does not budge.");
+      Room finalRoom = new Room("Final Room", "The door now opens wide for you to use. Outside, Amy and Rory and waiting for you. They embrace you tightly with a sigh of relief. YOU WIN!!!");
 
       //--ITEMS--
       Item sonic = new Item("sonic", "Sonic Screwdriver");
@@ -460,8 +461,13 @@ W  | Library |------| Console |------|   Door  |  E
     public void UseSonic(string itemName)
     {
       Item itemToUse = CurrentPlayer.Inventory.Find(item => item.Name == itemName);
-      if (itemToUse.Name == "sonic" && CurrentRoom.Name == "console")
+      if (itemToUse is null)
       {
+        Console.WriteLine("Cannot use this here.");
+      }
+      if (itemToUse.Name == "sonic" && CurrentRoom.Name == "Console")
+      {
+        CurrentRoom.Items.Add(itemToUse);
         Console.WriteLine("");
         Console.WriteLine("You pull your Sonic Screwdriver from your coat pocket and aim at the damaged portion of the Console. Wires start coming back together and the console lights up. In the near distance you hear the DOOR of the TARDIS click.");
       }
@@ -476,6 +482,16 @@ W  | Library |------| Console |------|   Door  |  E
       Console.Clear();
       Console.WriteLine("A book called END OF TIME lies in your hands. As you thumb through it, you read about your prior incarnation's jouney's through time and space and how it all came to your turn. As you close the back cover a plume of dust wafts across your face. You start a sneeze and as you look down at the back cover of the book, you see an embossed angel statue. And for a split moment, as your eyes start to shut, you swear you saw it move. You let out a mighty sneeze and when you eyes open back up, the environemt has changed. Trees and grassland surround the area and the atmosphere is thick with moisture. In the near distance a Tyranasaurus Rex breaks through the tree line making a beeline for you. In a panic, you toss the book the ground and RUN!");
       Environment.Exit(-1);
+    }
+
+    public void WinGame(string room)
+    {
+      // Room ConsoleFixed = inalRoom.Items.Find(item => item.Name == itemName);
+      // {
+      if (CurrentRoom.Name == "Door")
+      {
+        ;
+      }
     }
   }
 }
