@@ -469,7 +469,7 @@ W  | Library |------| Console |------|   Door  |  E
       {
         CurrentRoom.Items.Add(itemToUse);
         Console.WriteLine("");
-        Console.WriteLine("You pull your Sonic Screwdriver from your coat pocket and aim at the damaged portion of the Console. Wires start coming back together and the console lights up. In the near distance you hear the DOOR of the TARDIS click.");
+        Console.WriteLine("You pull your Sonic Screwdriver from your coat pocket and aim at the damaged portion of the Console. Wires start coming back together and the console lights up. In the near distance you hear the DOOR of the TARDIS click. The door flies open and you make a run for the exit. Amy and Rory are there waiting for you and embrace you with a sigh of relief. The threat is over for now and with a GERONIMO! your next journey begins!. YOU WIN!!!");
       }
       else
       {
