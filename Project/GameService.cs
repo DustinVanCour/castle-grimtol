@@ -14,8 +14,8 @@ namespace CastleGrimtol.Project
 
     public GameService(Player player)
     {
-      Setup();
       CurrentPlayer = player;
+      Setup();
     }
 
 
@@ -31,31 +31,32 @@ namespace CastleGrimtol.Project
       }
       switch (action)
       {
-        case "go":
+        case "go": //WORKS
           Go(choice);
-          break;
-
-        case "inventory":
-          Inventory();
-          break;
-
-        case "help":
-          Help();
-          break;
-
-        case "look":
           Look();
           break;
 
-        case "quit":
+        case "inventory": //WORKS
+          Inventory();
+          break;
+
+        case "help": //WORKS
+          Help();
+          break;
+
+        case "look": //WORKS
+          Look();
+          break;
+
+        case "quit": //WORKS
           Quit();
           break;
 
-        case "reset":
+        case "reset": //WORKS
           Reset();
           break;
 
-        case "take":
+        case "take":  //WORKS
           TakeItem(choice);
           break;
 
@@ -63,7 +64,7 @@ namespace CastleGrimtol.Project
           UseItem(choice);
           break;
 
-        default:
+        default: //WORKS
           Console.WriteLine("Invalid Input. Try Again. Or type HELP.");
           break;
       }
@@ -71,12 +72,14 @@ namespace CastleGrimtol.Project
 
     public void Go(string direction)
     {
+      Console.Clear();
       if (CurrentRoom.Exits.ContainsKey(direction))
       {
         CurrentRoom = (Room)CurrentRoom.Exits[direction];
       }
       else
       {
+        Console.WriteLine("");
         Console.WriteLine("Invalid Direction. Please choose a different direction.");
         Thread.Sleep(2000);
       };
@@ -84,24 +87,55 @@ namespace CastleGrimtol.Project
 
     public void Help()
     {
-      Console.WriteLine($"{CurrentRoom.Exits}");
+      Console.WriteLine("");
+      Console.WriteLine("Available Exits (Use -go- Command): ");
+      foreach (var exit in CurrentRoom.Exits)
+      {
+        Console.WriteLine(exit.Key);
+      }
+      if (CurrentPlayer.Inventory.Count == 0)
+      {
+        Console.WriteLine("");
+        Console.WriteLine("Available Inventory (Use -use- Command):");
+        Console.WriteLine("Your Inventory is currently empty.");
+      }
+      else
+      {
+        Console.WriteLine("");
+        Console.WriteLine("Available Inventory (Use -use- Command):");
+        int count = 1;
+        foreach (var item in CurrentPlayer.Inventory)
+        {
+          Console.WriteLine($"{count}) {item.Description}");
+          count++;
+        }
+      }
     }
 
     public void Inventory()
     {
-      Console.WriteLine("INVENTORY:");
-      int count = 1;
-      foreach (var Item in CurrentPlayer.Inventory)
+      if (CurrentPlayer.Inventory.Count == 0)
       {
-        Console.WriteLine($"{count}) {Item.Name}");
-        count++;
+        Console.WriteLine("");
+        Console.WriteLine("Your Inventory is currently empty.");
       }
-      // Console.WriteLine($"INVENTORY: {}");
+      else
+      {
+        Console.WriteLine("");
+        Console.WriteLine("INVENTORY:");
+        int count = 1;
+        foreach (var item in CurrentPlayer.Inventory)
+        {
+          Console.WriteLine($"{count}) {item.Description}");
+          count++;
+        }
+      }
     }
 
     public void Look()
     {
-      ;
+      Console.Clear();
+      Console.WriteLine(CurrentRoom.Description);
     }
 
     public void Quit()
@@ -169,16 +203,16 @@ namespace CastleGrimtol.Project
       Room opening = new Room("Opening Scene", @"
                          N
                      _________
-           	        |         |
-                    | Library |
+                    |         |
+                    |  Hall   |
                     |         |
                   //|____  ___|\\
                  //      ||     \\
                //        ||       \\
              //          ||         \\
      _______//       ____||___       \\ _______
-   |	       |      |         |      |         |
-E  | Shelves |------| Console |------|   Hall  |  W
+   |         |      |         |      |         |
+W  | Library |------| Console |------|   Door  |  E
    |         |------|    X    |------|         |
    |________ |      |____  ___|      | ________|
             \\           ||          //
@@ -186,25 +220,129 @@ E  | Shelves |------| Console |------|   Hall  |  W
                \\        ||       //
                  \\  ____||___  //
                   \\|         |//
-                    |   Door  |
+                    | Shelves |
                     |         |
                     |_________|
                     
-                          S
-      Your head is spinning as your eyes slowly open. You are laying on the floor unsure of your surrounding. You slowly start to stand up and gradually your world begins to come into view. You're in the TARDIS; standing next to the console. Things are in disarray and in need of repair. You are unsure what happened, but you know you must get off the ship. You reach into your coat pocket for your trusty Sonic Screwdriver, but it is nowhere to be found. As you removed you hand from your pocket, you notice a small black line on your wrist, as if drawn by a marker. Panic sets in as you become aware of how severe the sitaution is. You must find you Sonic ASAP if you are going to get out of this alive.");
-      Room console = new Room("Console", "The TARDIS console. It still seems to be functional, but barely. The viewscreen is lit up and you can see movement.");
+                        S
+
+      Your head is spinning as your eyes slowly open. You are laying on the floor unsure of your surroundings. You slowly start to stand up and gradually your world begins to come into view. You're in the TARDIS; standing next to the console. Things are in disarray and in need of repair. You are unsure what happened, but you know you must get off the ship. You reach into your coat pocket for your trusty Sonic Screwdriver, but it is nowhere to be found. As you removed you hand from your pocket, you notice a small black line on your wrist, as if drawn by a marker. Panic sets in as you become aware of how severe the sitaution is. You must find you Sonic ASAP if you are going to get out of this alive.");
+      Room console = new Room("Console", @"
+                         N
+                     _________
+                    |         |
+                    |  Hall   |
+                    |         |
+                  //|____  ___|\\
+                 //      ||     \\
+               //        ||       \\
+             //          ||         \\
+     _______//       ____||___       \\ _______
+   |         |      |         |      |         |
+W  | Library |------| Console |------|   Door  |  E
+   |         |------|    X    |------|         |
+   |________ |      |____  ___|      | ________|
+            \\           ||          //
+             \\          ||         //
+               \\        ||       //
+                 \\  ____||___  //
+                  \\|         |//
+                    | Shelves |
+                    |         |
+                    |_________|
+                    
+                        S
+
+      The TARDIS console. It still seems to be functional, but barely. The viewscreen is lit up and you can see movement.");
       Room hall = new Room("Dark Hall", "You approach the hallway leading to the back fo the TARDIS. It is very dark with only a few sparks from loose wires. The closer you get though, a figure comes into view...");
-      Room library = new Room("Library", "Your trusty deck library. Full of books and articfacts from previous adventures. Three distinct books are prominent on the middle shelf.");
-      Room shelves = new Room("Shelves", "A display shelf of personal affects you use throughout your travels. Coats, a guitar, and something very familiar and red in a display case.");
-      Room door = new Room("Door", "The bright blue front door to the TARDIS. The door unfortunately does not budge.");
+      Room library = new Room("Library", @"
+                         N
+                     _________
+                    |         |
+                    |  Hall   |
+                    |         |
+                  //|____  ___|\\
+                 //      ||     \\
+               //        ||       \\
+             //          ||         \\
+     _______//       ____||___       \\ _______
+   |         |      |         |      |         |
+W  | Library |------| Console |------|   Door  |  E
+   |    X    |------|         |------|         |
+   |________ |      |____  ___|      | ________|
+            \\           ||          //
+             \\          ||         //
+               \\        ||       //
+                 \\  ____||___  //
+                  \\|         |//
+                    | Shelves |
+                    |         |
+                    |_________|
+                    
+                        S
+
+      Your trusty deck library. Full of books and articfacts from previous adventures. Three distinct books are prominent on the middle shelf.");
+      Room shelves = new Room("Shelves", @"
+                         N
+                     _________
+                    |         |
+                    |  Hall   |
+                    |         |
+                  //|____  ___|\\
+                 //      ||     \\
+               //        ||       \\
+             //          ||         \\
+     _______//       ____||___       \\ _______
+   |         |      |         |      |         |
+W  | Library |------| Console |------|   Door  |  E
+   |         |------|         |------|         |
+   |________ |      |____  ___|      | ________|
+            \\           ||          //
+             \\          ||         //
+               \\        ||       //
+                 \\  ____||___  //
+                  \\|         |//
+                    | Shelves |
+                    |    X    |
+                    |_________|
+                    
+                         S
+
+      A display shelf of personal affects you use throughout your travels. Coats, a guitar, and something very familiar and red in a display case.");
+      Room door = new Room("Door", @"
+                         N
+                     _________
+                    |         |
+                    |  Hall   |
+                    |         |
+                  //|____  ___|\\
+                 //      ||     \\
+               //        ||       \\
+             //          ||         \\
+     _______//       ____||___       \\ _______
+   |         |      |         |      |         |
+W  | Library |------| Console |------|   Door  |  E
+   |         |------|         |------|    X    |
+   |________ |      |____  ___|      | ________|
+            \\           ||          //
+             \\          ||         //
+               \\        ||       //
+                 \\  ____||___  //
+                  \\|         |//
+                    | Shelves |
+                    |         |
+                    |_________|
+                    
+                         S
+
+      The bright blue front door to the TARDIS. The door unfortunately does not budge.");
 
       //--ITEMS--
-      Item sonic = new Item("Sonic Screwdriver");
-      Item fez = new Item("Fez");
-      Item bookCyborg = new Item("Wild West Cyborg");
-      Item bookPompei = new Item("Fires of Pompei");
-      Item bookTime = new Item("End of Time");
-      Item viewscreen = new Item("Viewscreen");
+      Item sonic = new Item("sonic", "Sonic Screwdriver");
+      Item fez = new Item("fez", "Fez");
+      Item bookCyborg = new Item("book-cyborg", "Book: Wild West Cyborg");
+      Book bookPompei = new Book("book-pompei", "Book: Fires of Pompei", sonic);
+      Item bookTime = new Item("book-time", "Book: End of Time");
 
       //--ROOM RELATIONSHIPS--
       opening.Exits.Add("north", hall);
@@ -231,32 +369,113 @@ E  | Shelves |------| Console |------|   Hall  |  W
       library.Items.Add(bookCyborg);
       library.Items.Add(bookPompei);
       library.Items.Add(bookTime);
-      library.Items.Add(sonic);
-      console.Items.Add(sonic);
-      console.Items.Add(viewscreen);
       shelves.Items.Add(fez);
+
+      StartGame();
     }
 
     public void StartGame()
     {
+      Look();
       while (Running)
       {
-        Console.Clear();
-        Console.WriteLine($"{CurrentRoom.Description}");
         GetUserInput();
-        Inventory();
       }
     }
 
     public void TakeItem(string itemName)
     {
-      ;
+      Item itemToTake = CurrentRoom.Items.Find(item => item.Name == itemName);
+      if (itemToTake is null)
+      {
+        Console.WriteLine("No Items to Take.");
+      }
+      else
+      {
+        CurrentPlayer.Inventory.Add(itemToTake);
+        CurrentRoom.Items.Remove(itemToTake);
+      }
     }
 
     public void UseItem(string itemName)
     {
-      ;
+      Item itemToUse = CurrentPlayer.Inventory.Find(item => item.Name == itemName);
+      Room roomToUse = CurrentRoom;
+      if (itemToUse is null)
+      {
+        Console.WriteLine("Cannot use this item here.");
+      }
+
+      if (itemToUse is Book)
+      {
+        CurrentPlayer.Inventory.Remove(itemToUse);
+        Book b = (Book)itemToUse;
+        CurrentPlayer.Inventory.Add(b.Contents);
+        Console.WriteLine("A green glow starts to permiate from the pages. As you open the book, you remember you hid your backup Sonic here. Hope fills your two hearts as you tuck it away into your coat pocket.");
+      }
+
+
+      if (itemToUse.Name == "book-time")
+      {
+        EndGame1();
+      }
+
+      if (itemToUse.Name == "fez")
+      {
+        Console.WriteLine("");
+        CurrentPlayer.Inventory.Remove(itemToUse);
+        Console.WriteLine("You put your fez on your head. Fezzes are Cool!");
+      }
+      {
+        if (itemToUse.Name == "sonic")
+        {
+          UseSonic(itemName);
+        }
+      }
+
+      // if (itemToUse.Name == "sonic" && roomToUse.Name == "console")
+      // {
+      //   Console.WriteLine("");
+      //   Console.WriteLine("You pull your Sonic Screwdriver from your coat pocket and aim at the damaged portion of the Console. Wires start coming back together and the console lights up. In the near distance you hear the DOOR of the TARDIS click.");
+      // }
+      // else
+      // {
+      //   Console.WriteLine("");
+      //   Console.WriteLine("You pull your Sonic Screwdriver from your coat pocket and press the switch. It whirs, buzzes, and lights up green, but nothing changes. You put it back in your coat pocket.");
+      // }
+
+      //find item from currentplayer.inventory where item.name == itemName **
+      //null check **
+      //try to find from room.items ---Not Using Currently ---
+      //if still null then prompt failure
+      // if item is Book
+      //if book.name == 'endoftime'
+      //EndGame1()
+      //if book.name == 'pompei'
+      //Book b = (book)item
+      //player.inventory.add(b.contents)
+      //player.inventory.remove(item)
     }
 
+    public void UseSonic(string itemName)
+    {
+      Item itemToUse = CurrentPlayer.Inventory.Find(item => item.Name == itemName);
+      if (itemToUse.Name == "sonic" && CurrentRoom.Name == "console")
+      {
+        Console.WriteLine("");
+        Console.WriteLine("You pull your Sonic Screwdriver from your coat pocket and aim at the damaged portion of the Console. Wires start coming back together and the console lights up. In the near distance you hear the DOOR of the TARDIS click.");
+      }
+      else
+      {
+        Console.WriteLine("");
+        Console.WriteLine("You pull your Sonic Screwdriver from your coat pocket and press the switch. It whirs, buzzes, and lights up green, but nothing changes. You put it back in your coat pocket.");
+      }
+    }
+    public void EndGame1()
+    {
+      Console.Clear();
+      Console.WriteLine("A book called END OF TIME lies in your hands. As you thumb through it, you read about your prior incarnation's jouney's through time and space and how it all came to your turn. As you close the back cover a plume of dust wafts across your face. You start a sneeze and as you look down at the back cover of the book, you see an embossed angel statue. And for a split moment, as your eyes start to shut, you swear you saw it move. You let out a mighty sneeze and when you eyes open back up, the environemt has changed. Trees and grassland surround the area and the atmosphere is thick with moisture. In the near distance a Tyranasaurus Rex breaks through the tree line making a beeline for you. In a panic, you toss the book the ground and RUN!");
+      Environment.Exit(-1);
+    }
   }
 }

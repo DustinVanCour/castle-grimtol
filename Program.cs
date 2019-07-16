@@ -53,9 +53,9 @@ namespace CastleGrimtol
                       ");
       System.Console.WriteLine("Welcome to Escape the TARDIS! What is your name?");
       string name = Console.ReadLine();
+      Console.Clear();
       Player newPlayer = new Player(name);
       GameService app = new GameService(newPlayer);
-      app.StartGame();
     }
   }
 }
